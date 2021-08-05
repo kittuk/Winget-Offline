@@ -13,8 +13,6 @@
 #region---------------Start Here--------------------#
 Clear-Host
 
-#region start
-
 #Install NuGet
 if (!(Get-PackageProvider -name "NuGet" -ea 0)){Install-PackageProvider -Name "NuGet" -Force -Confirm:$false -ea 0}
 
@@ -53,8 +51,6 @@ Add-AppxPackage -Path $env:TEMP\$fileName #Microsoft.DesktopAppInstaller_8wekyb3
 $installationPath = (Get-AppxPackage Microsoft.DesktopAppInstaller).InstallLocation
 Set-ExecutionAlias -Path "C:\Windows\System32\winget.exe" -PackageName "Microsoft.DesktopAppInstaller_8wekyb3d8bbwe" -EntryPoint "Microsoft.DesktopAppInstaller_8wekyb3d8bbwe!winget" -Target "$installationPath\AppInstallerCLI.exe" -AppType Desktop -Version 3
 explorer.exe "shell:appsFolder\Microsoft.DesktopAppInstaller_8wekyb3d8bbwe!winget"
-
-#endregion start
 
 #endregion------------End Here----------------------#
 
