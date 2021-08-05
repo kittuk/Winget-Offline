@@ -102,7 +102,7 @@ function Rotate-Log{
 function Write-MYLog {
      Param ([string]$LogStatus,[string]$Logmessage)
      #$shortDate = (Get-Date -Format (Get-culture).DateTimeFormat.ShortDatePattern) -replace "/",""
-     $Global:logFile = ".\logs\$AZLogType.log"
+     $Global:logFile = ".\logs\WinGet-Offline.log"
      $logtime = (Get-Date -Format (Get-culture).DateTimeFormat.FullDateTimePattern)
      $logData = $LogStatus + "," + $pid+ "," + $LogTime + "," + $Logmessage
      Add-content $Logfile -value $LogData
