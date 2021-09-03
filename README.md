@@ -1,3 +1,3 @@
 # Winget-Offline
 
-Offline install script for Winget
+Offline install script for Winget - Non-Core systems only
