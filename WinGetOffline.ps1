@@ -18,8 +18,15 @@ $startupVariables=""
 new-variable -force -name startupVariables -value ( Get-Variable |
    % { $_.Name } )
 ###################################################################################
-
-$scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
+function Get-ScriptDirectory {
+    if ($psise) {
+        Split-Path $psise.CurrentFile.FullPath
+    }
+    else {
+        $global:PSScriptRoot
+    }
+}
+$scriptPath = Get-ScriptDirectory
 
 #Check PowerShell Version and Exit if less than 3
 if ($PSVersionTable.PSVersion.Major -le 3){[Console]::WriteLine("Error please upgrade Powershell");Exit 1}
@@ -103,6 +110,8 @@ function Write-MYLog {
      Param ([string]$LogStatus,[string]$Logmessage)
      #$shortDate = (Get-Date -Format (Get-culture).DateTimeFormat.ShortDatePattern) -replace "/",""
      $Global:logFile = ".\logs\WinGet-Offline.log"
+     if (!(Test-Path ".\logs")){New-Item -ItemType Directory ".\Logs"}
+     if (!(Test-Path $logfile)){New-Item -ItemType File $logfile }
      $logtime = (Get-Date -Format (Get-culture).DateTimeFormat.FullDateTimePattern)
      $logData = $LogStatus + "," + $pid+ "," + $LogTime + "," + $Logmessage
      Add-content $Logfile -value $LogData
@@ -110,6 +119,7 @@ function Write-MYLog {
     #if (!(test-path ` HKLM:\SYSTEM\CurrentControlSet\Services\Eventlog\Application\Huntsman )){new-eventlog -logname Huntsman -source Applocker -ErrorAction SilentlyContinue}
     #Write-EventLog -LogName Huntsman -EntryType $EntryType -Source Applocker -ID $eid -Message "$errmessage"
 }
+
 
 Rotate-Log -fileName $logfile -filesize 1mb -logcount 5
 
